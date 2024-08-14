@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-$^ba@-graizku=vh7v0lqr^n$@e*2bi02al+rne*94egl=znj='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'https://thebilcomputer-66798a5b9ecb.herokuapp.com','bilcomputer.com'
@@ -141,7 +141,7 @@ django_heroku.settings(locals())
 STATIC_ROOT = BASE_DIR / 'staticfiles/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 
 AUTH_USER_MODEL = 'accounts.Customer'
