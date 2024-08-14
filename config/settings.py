@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-$^ba@-graizku=vh7v0lqr^n$@e*2bi02al+rne*94egl=znj=
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'bilcomputer.com','www.bilcomputer.com'
+    'https://thebilcomputer-66798a5b9ecb.herokuapp.com','bilcomputer.com'
 ]
 
 
