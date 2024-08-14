@@ -1,0 +1,45 @@
+{% load price_filter %}
+<div class="product">
+    <div class="product_img">
+        <a href="{% url 'shop:single_product' product.slug %}">
+            <img alt="{{ product.name }}"
+                src="{{ product.images.first.image.url }}"></a>
+        <div class="product_action_box">
+            <ul class="list_none pr_action_btn">
+                <li class="add-to-cart">
+                    <a href="{% url 'shop:add_to_cart' product.id %}"><i class="icon-basket-loaded"></i> Ajouter au panier </a>
+                </li>
+                <li><a href="{% url 'shop:add_to_compare' product.id %}"><i class="icon-shuffle"></i></a></li>
+                <li><a href="shop-quick-view.html"><i class="icon-magnifier-add"></i></a></li>
+                <li><a href="{% url 'shop:add_to_wishlist' product.id %}"><i class="icon-heart"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="product_info">
+        <h6 class="product_title">
+            <a href="{% url 'shop:single_product' product.slug %}"> {{ product.name }} </a>
+            </h6>
+        <div class="product_price">
+            <span class="price">{{ product.solde_price|format_price }} </span>
+            <del>
+                {{ product.regular_price|format_price }} 
+            </del>
+            <div class="on_sale"><span>{{ product|solde_rate }}</span></div>
+        </div>
+        <div class="rating_wrap">
+            <div class="rating">
+                <div class="product_rate" style="width: 80%;"></div>
+            </div><span class="rating_num">(21)</span>
+        </div>
+        <div class="pr_desc">
+            <p>
+                {{ product.description | safe }}
+            </p>
+        </div>
+        <div class="pr_switch_wrap">
+            <div class="product_color_switch"><span data-color="#87554B" class="active"></span><span
+                    data-color="#333333"></span><span data-color="#DA323F"></span>
+            </div>
+        </div>
+    </div>
+</div>

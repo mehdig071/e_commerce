@@ -1,0 +1,232 @@
+{% load price_filter %}
+
+<header class="header_wrap fixed-top header_with_topbar active">
+  <div class="top-header" style="">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <div class="d-flex align-items-center justify-content-center justify-content-md-start">
+            <div class="me-3">
+              <div class="ddOutOfVision" id="msdrpdd20_msddHolder"
+                style="height: 0px; overflow: hidden; position: absolute">
+                <select name="countries" class="custome_select" id="msdrpdd20" tabindex="-1">
+                  <option value="USD" data-title="USD" ng-reflect-value="USD">
+                    USD
+                  </option>
+                  <option value="EUR" data-title="EUR" ng-reflect-value="EUR">
+                    EUR
+                  </option>
+                  <option value="GBR" data-title="GBR" ng-reflect-value="GBR">
+                    GBR
+                  </option>
+                </select>
+              </div>
+              <div class="dd ddcommon borderRadius" id="msdrpdd20_msdd" tabindex="0" style="width: 52px">
+                <div class="ddTitle borderRadiusTp">
+                  <span class="divider"></span><span class="ddArrow arrowoff"></span><span class="ddTitleText"
+                    id="msdrpdd20_title"><span class="ddlabel">EUR</span><span class="description"
+                      style="display: none"></span></span>
+                </div>
+                <input id="msdrpdd20_titleText" type="text" autocomplete="off" class="text shadow borderRadius"
+                  style="display: none" />
+                <div class="ddChild ddchild_ border shadow" id="msdrpdd20_child" style="
+                    z-index: 9999;
+                    display: none;
+                    position: absolute;
+                    visibility: visible;
+                    height: 99px;
+                  ">
+                  <ul>
+                    <li class="enabled _msddli_ selected" title="{{ request.session.currency }}">
+                      <span class="ddlabel">{{ request.session.currency }}</span>
+                      <div class="clear"></div>
+                    </li>
+                    <li class="enabled _msddli_" title="EUR">
+                      <span class="ddlabel">EUR</span>
+                      <div class="clear"></div>
+                    </li>
+                    <li class="enabled _msddli_" title="GBR">
+                      <span class="ddlabel">GBR</span>
+                      <div class="clear"></div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <ul class="contact_detail text-center text-lg-start">
+              <li>
+                <i class="ti-mobile"></i><span>{{ request.session.phone }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="text-center text-md-end">
+            <ul class="header_list">
+              <li>
+                <a href="{% url 'shop:compare' %}"><i class="ti-control-shuffle"></i><span>Compare</span></a>
+              </li>
+              <li>
+                <a routerlink="/wishlist" ng-reflect-router-link="/wishlist" href="/wishlist"><i
+                    class="ti-heart"></i><span>Wishlist</span></a>
+              </li>
+              {% if user.is_authenticated %}
+              <li>
+                <a href="{% url 'dashboard:home' %}"><i class="ti-user"></i><span>Dashboard</span></a>
+              </li>
+              <li>
+                <form id="logout-form" method="POST" action="{% url 'accounts:logout' %}">
+                  {% csrf_token  %}
+                  <a href="#" onclick="document.getElementById('logout-form').submit();">
+                    <i class="ti-user"></i><span>Logout</span>
+                  </a>
+
+                </form>
+              </li>
+              {% else %}
+
+              <li>
+                <a href="{% url 'accounts:signin' %}"><i class="ti-user"></i><span>Signin</span></a>
+              </li>
+              <li>
+                <a href="{% url 'accounts:signup' %}"><i class="ti-user"></i><span>Signup</span></a>
+                {% endif %}
+              </li>
+              <li></li>
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom_header dark_skin main_menu_uppercase">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg">
+        <a routerlink="/" class="navbar-brand" ng-reflect-router-link="/" href="/">
+          <h2>{{ request.session.name }}</h2>
+        </a><button type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-expanded="false" class="navbar-toggler collapsed">
+          <span class="ion-android-menu"></span>
+        </button>
+        <div id="navbarSupportedContent" class="navbar-collapse justify-content-end collapse" style="">
+          <ul class="navbar-nav">
+            <li class="dropdown">
+              <a routerlink="/" class="nav-link" ng-reflect-router-link="/" href="/">Home</a>
+            </li>
+            <li class="dropdown">
+              <a href="#" data-bs-toggle="dropdown" class="dropdown-toggle nav-link active"
+                aria-expanded="false">Pages</a>
+              <div class="dropdown-menu">
+                <ul>
+                  {% for page in request.session.head_pages %}
+
+                  <li>
+                    <a routerlink="/about" class="dropdown-item nav-link nav_item" ng-reflect-router-link="/about"
+                      href="{% url 'shop:page' page.slug %}">{{ page.name }}
+                    </a>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </li>
+            <li class="dropdown dropdown-mega-menu">
+              <a href="#" data-bs-toggle="dropdown" class="dropdown-toggle nav-link" aria-expanded="false">Produits</a>
+              <div class="dropdown-menu">
+                <ul class="mega-menu d-lg-flex">
+                  {% for category in request.session.mega_categories %}
+                  <li class="mega-menu-col col-lg-3">
+                    <ul>
+                      <li class="dropdown-header">{{ category.name }}</li>
+                      {% for product in category.products %}
+                      <li class="d-flex align-items-center p-1">
+                        <img src="{{ product.image }}" height="25" width="25" alt="{{ product.name }}" />
+                        <a class="dropdown-item nav-link nav_item p-2"
+                          href="{% url 'shop:single_product' product.slug %}">
+                          {{ product.name}}
+                        </a>
+                      </li>
+
+                      {% endfor %}
+                    </ul>
+                  </li>
+
+                  {% endfor %}
+                </ul>
+                <div class="d-lg-flex menu_banners row g-3 px-3">
+                  {% for collection in request.session.nav_collections %}
+                  <div class="col-sm-4">
+                    <div class="header-banner">
+                      <img alt="{{ collection.title }}" src="{{ collection.imageUrl }}" />
+                      <div class="banne_info">
+                        <h6>{{ collection.description }}</h6>
+                        <h4>{{ collection.title }}</h4>
+                        <a href="{{ collection.button_link }}">{{collection.button_text }}</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  {% endfor %}
+                </div>
+              </div>
+            </li>
+            <li class="dropdown dropdown-mega-menu">
+              <a class="nav-link" href="{% url 'shop:shop_list' %}">Shop</a>
+            </li>
+            
+          </ul>
+        </div>
+        <ul class="navbar-nav attr-nav align-items-center">
+          
+          <li class="dropdown cart_dropdown">
+            <a href="#" data-bs-toggle="dropdown" class="nav-link cart_trigger"><i class="linearicons-cart"></i><span
+                class="cart_count">{{ cart_data.cart_count }}</span></a>
+            <div class="cart_box dropdown-menu dropdown-menu-right">
+              <ul class="cart_list">
+
+                {% for item in cart_data.items %}
+                <li>
+                  <a href="#" class="item_remove"><i class="ion-close"></i></a><a href="#"><img width="50" height="50"
+                      alt="cart_thumb1" src="{{ item.product.image }}" />{{ item.product.name }}</a><span
+                    class="cart_quantity">
+                    {{ item.quantity }} x
+                    <span class="cart_amount">
+                      <span class="price_symbole">
+                        {{ item.product.solde_price|format_price }}
+                      </span>
+                    </span>
+                  </span>
+                </li>
+
+                {% endfor %}
+
+              </ul>
+              <div class="cart_footer">
+                <p class="cart_total py-1">
+                  <strong>Subtotal HT:</strong><span class="cart_price"><span class="price_symbole"></span></span>
+                  {{ cart_data.sub_total_ht }}
+                </p>
+                <div class="cart_total py-1">
+                  <strong>Shipping :</strong><span class="cart_price"><span class="price_symbole"></span></span>
+                  {{ cart_data.shipping_price }}
+                </div>
+                <div class="cart_total py-1">
+                  <strong>Taxe :</strong><span class="cart_price"><span class="price_symbole"></span></span>
+                  {{ cart_data.taxe_amount }}
+                </div>
+                <p class="cart_total py-1">
+                  <strong>Subtotal:</strong><span class="cart_price"><span class="price_symbole"></span></span>
+                  {{ cart_data.sub_total_with_shipping }}
+                </p>
+                <p class="cart_buttons">
+                  <a class="btn btn-fill-line view-cart" href="{% url 'shop:cart' %}">View Cart</a>
+                  <a  class="btn btn-fill-out checkout" href="{% url 'shop:checkout' %}">Checkout</a>
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>

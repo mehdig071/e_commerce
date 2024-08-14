@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include "partials/top_page.html" with name="Order Completed" %}
+
+
+<div class="section">
+	<div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="text-center order_complete">
+                	<i class="fas fa-check-circle"></i>
+                    <div class="heading_s1">
+                  	<h3>Votre commande est complétée !</h3>
+                    </div>
+                  	<p>Merci pour votre commande ! Celle-ci est en cours de traitement et sera complétée dans un délai de 12 à 24 heures. Vous pouvez voir toutes les informations sur votre Dashboard !.</p>
+                    <a href="{% url 'shop:home' %}" class="btn btn-fill-out">
+                        Continuer vos achats
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

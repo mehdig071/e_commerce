@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load price_filter %}
+
+{% block content %}
+
+{% include "partials/top_page.html" with name="Compare" %}
+
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="compare_box">
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-center">
+                            <tbody>
+                                <tr class="pr_image">
+                                    <td class="row_title">Image du produit</td>
+                                    {% for product in compares %}
+                                    <td class="row_img">
+                                        <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
+                                    </td>
+
+                                    {% endfor %}
+                                </tr>
+                                <tr class="pr_title">
+                                    <td class="row_title">Nom du produit</td>
+                                    {% for product in compares %}
+                                    <td class="product_name">
+                                        <a href="{% url 'shop:single_product' product.slug %}">
+                                            {{ product.name }}
+                                        </a>
+                                    </td>
+
+                                    {% endfor %}
+                                </tr>
+                                <tr class="pr_price">
+                                    <td class="row_title">Prix</td>
+                                    {% for product in compares %}
+                                    <td class="product_price">
+                                        <span class="price">
+                                            {{ product.solde_price|format_price }}
+                                        </span>
+                                    </td>
+
+                                    {% endfor %}
+                                </tr>
+
+                                <tr class="pr_add_to_cart">
+                                    <td class="row_title">Ajouter au panier</td>
+                                    {% for product in compares %}
+                                    <td class="row_btn">
+                                        <a href="{% url 'shop:add_to_cart' product.id %}" class="btn btn-fill-out">
+                                            <i class="icon-basket-loaded"></i> Ajouter au panier
+                                        </a>
+                                    </td>
+                                    {% endfor %}
+                                </tr>
+                                <tr class="description">
+                                    <td class="row_title">Description</td>
+                                    {% for product in compares %}
+                                    <td class="row_text">
+                                        {{ product.description }}
+                                    </td>
+                                    {% endfor %}
+                                </tr>
+
+                                <tr class="pr_stock">
+                                    <td class="row_title">Disponibilité de l'article</td>
+                                    {% for product in compares %}
+                                    {% if product.stock > 0 %}
+                                    <td class="row_stock"><span class="in-stock">In Stock</span></td>
+                                    In Stock
+                                    {% else %}
+                                    <td class="row_stock"><span class="out-stock">Out Of Stock</span></td>
+                                    {% endif %}
+                                    {% endfor %}
+                                </tr>
+
+                                <tr class="pr_remove">
+                                    <td class="row_title"></td>
+                                    {% for product in compares %}
+                                    <td class="row_remove">
+                                        <a href="{% url 'shop:remove_from_compare' product.id %}"><span>Supprimer</span> <i class="fa fa-times"></i></a>
+                                    </td>
+                                    {% endfor %}
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

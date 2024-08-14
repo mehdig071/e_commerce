@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load price_filter %}
+
+{% block content %}
+
+{% include "partials/top_page.html" with name="Wish List" %}
+
+<div class="main_content">
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive wishlist_table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="product-thumbnail">&nbsp;</th>
+                                    <th class="product-name">Produit</th>
+                                    <th class="product-price">Prix</th>
+                                    <th class="product-stock-status">Stock Status</th>
+                                    <th class="product-add-to-cart"></th>
+                                    <th class="product-remove">Supprimer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in wishlist %}
+                                <tr>
+                                    <td class="product-thumbnail">
+                                        <a href="{% url 'shop:single_product' product.slug %}">
+                                            <img width="50" height="50" alt="product1" src="{{ product.image }}">
+                                        </a>
+                                    </td>
+                                    <td data-title="Product" class="product-name">
+                                        <a href="#">{{ product.name }}</a>
+                                    </td>
+                                    <td data-title="Price" class="product-price">
+                                        {{ product.solde_price|format_price }}
+                                    </td>
+                                    <td data-title="Stock Status" class="product-stock-status">
+                                        {% if product.stock > 0 %}
+                                        In Stock
+                                        {% else %}
+                                        Out Of Stock
+                                        {% endif %}
+                                    </td>
+                                    <td class="product-add-to-cart">
+                                        <a href="{% url 'shop:add_to_cart' product.id %}" class="btn btn-fill-out">
+                                            <i class="icon-basket-loaded"></i> Ajouter au panier
+                                        </a>
+                                    </td>
+                                    <td data-title="Remove" class="product-remove">
+                                        <a href="{% url 'shop:remove_from_wishlist' product.id %}">
+                                            <i class="ti-close"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

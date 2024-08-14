@@ -1,0 +1,37 @@
+[
+    {
+        "stmt": "SELECT * FROM shop_collection;",
+        "header": [
+            "id",
+            "title",
+            "description",
+            "button_text",
+            "button_link",
+            "image",
+            "updated_at",
+            "created_at"
+        ],
+        "rows": [
+            [
+                "2",
+                "New Collection",
+                "90% Off",
+                "Shop Now",
+                "https://free.mudey.fr/programme/debuter-et-apprendre-a-programmer-en-python",
+                "sliders/2024/01/08/cc83b177a201fbc5f2bfd363969c4ae7fe1ea818_orGK6cW.png",
+                "2024-01-08 16:40:27.651527",
+                "2024-01-08 16:34:42.722664"
+            ],
+            [
+                "3",
+                "New Collection",
+                "30% Off",
+                "Shop Now",
+                "https://free.mudey.fr/programme/apprendre-les-bases-indispensables-du-langages-javascript",
+                "sliders/2024/01/08/f7de45888e974e65c22f76d9d858415ec83dfded_dLVw3J2.png",
+                "2024-01-08 16:39:51.636001",
+                "2024-01-08 16:38:57.768721"
+            ]
+        ]
+    }
+]

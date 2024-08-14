@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include "partials/top_page.html" with name="Sign In" %}
+
+<div class="main_content">
+    <div class="login_register_wrap section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-6 col-md-10">
+                    <div class="login_wrap">
+                        <div class="padding_eight_all bg-white">
+                            <div class="heading_s1">
+                                <h3>Se connecter</h3>
+                            </div>
+                            {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert alert-danger">
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="form-group mb-3">
+                                    {{ form.username }}
+
+                                    {% if form.username.errors %}
+                                    {% for error in form.username.errors %}
+                                    <div class="text-danger">
+                                        {{error}}
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+
+                                </div>
+                                <div class="form-group mb-3">
+                                    {{ form.password }}
+
+                                    {% if form.password.errors %}
+                                    {% for error in form.password.errors %}
+                                    <div class="text-danger">
+                                        {{error}}
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+
+
+                                <div class="form-group mb-3"><button type="submit" name="login"
+                                        class="btn btn-fill-out btn-block">Se connecter</button></div>
+                            </form>
+
+                            <div class="form-note text-center">Vous n'avez pas de compte ?
+                                <a href="{% url 'accounts:signup' %}">Inscrivez-vous maintenant</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

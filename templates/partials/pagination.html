@@ -1,0 +1,58 @@
+{% if datas.has_other_pages %}
+<div class="row">
+    <div class="col-12">
+        <ul class="pagination mt-3 justify-content-center pagination_style1">
+
+            {% if datas.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ datas.previous_page_number }}">
+                    <i class="linearicons-arrow-left"></i>
+                </a>
+
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page=1">
+                    1
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">
+                    ...
+                </a>
+            </li>
+            {% endif %}
+
+            {% for page in datas.paginator.page_range %}
+            {% if datas.number == page %}
+            <li class="page-item active">
+                <a class="page-link" href="?page={{page}}">{{ page }}</a>
+            </li>
+            {% elif page > datas.number|add:'-2' and page < datas.number|add:'2' %} <li
+                class="page-item">
+                <a class="page-link" href="?page={{page}}">{{ page }}</a>
+                </li>
+                {% endif %}
+
+                {% endfor %}
+                {% if datas.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="#">
+                        ...
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ datas.paginator.num_pages }}">
+                        {{ datas.paginator.num_pages }}
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ datas.next_page_number }}">
+                        <i class="linearicons-arrow-right"></i>
+                    </a>
+                </li>
+                {% endif %}
+
+        </ul>
+    </div>
+</div>
+{% endif %}

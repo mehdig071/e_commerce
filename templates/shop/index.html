@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+{% include "partials/slider.html" with sliders=sliders %}
+
+<div class="main_content">
+    <div class="section pb_20">
+        <div class="container">
+            <div class="row">
+                {% for collection in collections %}
+                <div class="col-md-6">
+                    <div class="single_banner"><img alt="shop_banner_img1" src="{{ collection.image.url }}">
+                        <div class="single_banner_info">
+                            <h5 class="single_bn_title1">{{ collection.description }}</h5>
+                            <h3 class="single_bn_title">{{ collection.title }}</h3><a class="single_bn_link"
+                                href="{{ collection.button_link }}">{{ collection.button_text }}</a>
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+    <div class="section small_pt pb_70">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="heading_s1 text-center">
+                        <h2>Produits exclusifs </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="tab-style1">
+                        <ul role="tablist" class="nav nav-tabs justify-content-center">
+                            <li class="nav-item"><a id="arrival-tab" data-bs-toggle="tab" href="#arrival" role="tab"
+                                    aria-controls="arrival" aria-selected="true" class="nav-link active">Nouvelle arrivée</a></li>
+                            <li class="nav-item"><a id="sellers-tab" data-bs-toggle="tab" href="#sellers" role="tab"
+                                    aria-controls="sellers" aria-selected="false" class="nav-link">Meilleures ventes</a>
+                            </li>
+                            <li class="nav-item"><a id="featured-tab" data-bs-toggle="tab" href="#featured" role="tab"
+                                    aria-controls="featured" aria-selected="false" class="nav-link">En vedette</a>
+                            </li>
+                            <li class="nav-item"><a id="special-tab" data-bs-toggle="tab" href="#special" role="tab"
+                                    aria-controls="special" aria-selected="false" class="nav-link">Offre spéciale
+                                </a></li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div id="arrival" role="tabpanel" aria-labelledby="arrival-tab"
+                            class="tab-pane fade show active">
+                            <div class="row shop_container">
+
+                                {% for product in new_arrivals %}
+                                <div class="col-lg-3 col-md-4 col-6">
+                                    {% include "partials/product.html" with product=product %}
+                                </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                        <div id="sellers" role="tabpanel" aria-labelledby="sellers-tab" class="tab-pane fade">
+                            <div class="row shop_container">
+                                {% for product in best_sellers %}
+                                <div class="col-lg-3 col-md-4 col-6">
+                                    {% include "partials/product.html" with product=product %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div id="featured" role="tabpanel" aria-labelledby="featured-tab" class="tab-pane fade">
+                            <div class="row shop_container">
+                                {% for product in featured %}
+                                <div class="col-lg-3 col-md-4 col-6">
+                                    {% include "partials/product.html" with product=product %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div id="special" role="tabpanel" aria-labelledby="special-tab" class="tab-pane fade">
+                            <div class="row shop_container">
+                                {% for product in special_offers %}
+                                <div class="col-lg-3 col-md-4 col-6">
+                                    {% include "partials/product.html" with product=product %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

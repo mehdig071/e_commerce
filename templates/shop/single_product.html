@@ -1,0 +1,150 @@
+
+{% extends "base.html" %}
+{% load price_filter %}
+
+{% block content %}
+
+{% include "partials/top_page.html" with name=product.name %}
+
+<div class="main_content">
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 mb-4 mb-md-0">
+                    <div class="product-image">
+                        <div class="product_img_box">
+                            <img id="product_img" alt="product_img1" src="{{ product.images.first.image.url }}"
+                                data-zoom-image="{{ product.images.first.image.url }}"><a title="Zoom"
+                                class="product_img_zoom"><span class="linearicons-zoom-in"></span></a>
+                        </div>
+                        <div id="pr_item_gallery" data-slides-to-show="4" data-slides-to-scroll="1"
+                            data-infinite="false"
+                            class="product_gallery_item slick_slider slick-initialized slick-slider">
+                            <div aria-live="polite" class="slick-list draggable">
+                                <div class="slick-track" role="listbox" style="opacity: 1; width: 556px; left: 0px;">
+                                    {% for image in product.images.all %}
+                                    <div class="item slick-slide {% if forloop.first %} slick-current slick-active {% endif %}"
+                                        data-slick-index="{{ forloop.index }}" aria-hidden="false" tabindex="-1"
+                                        role="option" aria-describedby="slick-slide{{ forloop.index }}"
+                                        style="width: 129px;"><a href="#"
+                                            class="product_gallery_item {% if forloop.first %} active {% endif %}"
+                                            data-image="{{ image.image.url }}" data-zoom-image="{{ image.image.url }}"
+                                            tabindex="0">
+
+                                            <img alt="product_small_img1"  src="{{ image.image.url }}">
+                                        </a>
+                                    </div>
+
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="pr_detail">
+                        <div class="product_description">
+                            <h4 class="product_title"><a href="#">{{product.name }}</a></h4>
+                            <div class="product_price">
+                                <span class="price">{{ product.solde_price|format_price }}</span>
+                                <del>{{ product.regular_price|format_price }}</del>
+                                <div class="on_sale"><span>{{ product|solde_rate }}</span>
+                                </div>
+                            </div>
+                         
+                                <div class="pr_desc">
+                                    <p> * </p>
+                                </div>
+                          
+                            
+                            <div class="product_sort_info">
+                                <ul>
+                                    <li></li>
+                                    <li><i class="linearicons-shield-check"></i> Tous nos produits sont sous garantie.</li>
+                                    <li><i class="linearicons-sync"></i> Retour possible. </li>
+                                    <li><i class="linearicons-bag-dollar"></i>Paiement par carte ou cash disponible.</li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="cart_extra">
+                            <div class="cart-product-quantity">
+                                <div class="quantity"><input type="button" value="-" class="minus"><input type="text"
+                                        name="quantity" value="1" title="Qty" size="4" class="qty"><input type="button"
+                                        value="+" class="plus"></div>
+                            </div>
+                            <div class="cart_btn">
+
+                                <a href="{% url 'shop:add_to_cart' product.id %}">              
+                                <button type="button" class="btn btn-fill-out btn-addtocart">                           
+                                <i class="icon-basket-loaded"> </i> Ajouter au panier</button></a>
+                                
+                                </div>
+
+
+                        
+                        </div>
+                        <hr><!--bindings={
+  "ng-reflect-ng-if": "false"
+}-->
+                        <ul class="product-meta">
+                            <div class="cart_btn">
+                                <a href="{% url 'shop:add_to_compare' product.id %}"><i class="icon-shuffle"> Compare</i></a></div>
+                            <div class="cart_btn">
+                                <a href="{% url 'shop:add_to_wishlist' product.id %}"><i class="icon-heart"> Wishlist</i></a>
+                            </div>
+                        </ul>
+                        <div class="product_share"><span>Partager:</span>
+                            <ul class="social_icons">
+                                <li><a href="https://www.facebook.com/"><i class="ion-social-facebook"></i></a></li>
+                                <li><a href="https://x.com/?lang=fr"><i class="ion-social-twitter"></i></a></li>
+                                <li><a href="https://www.youtube.com/"><i class="ion-social-youtube-outline"></i></a>
+                                </li>
+                                <li><a href="https://www.instagram.com/"><i class="ion-social-instagram-outline"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="large_divider clearfix"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="tab-style3">
+                        <ul role="tablist" class="nav nav-tabs">
+                            <li class="nav-item"><a id="Description-tab" data-bs-toggle="tab" href="#Description"
+                                    role="tab" aria-controls="Description" aria-selected="true"
+                                    class="nav-link active">Description</a></li>
+                            <li class="nav-item"><a id="Additional-info-tab" data-bs-toggle="tab"
+                                    href="#Additional-info" role="tab" aria-controls="Additional-info"
+                                    aria-selected="false" class="nav-link">Informations supplémentaires</a></li>
+
+                        </ul>
+                        <div class="tab-content shop_info_tab">
+                            <div id="Description" role="tabpanel" aria-labelledby="Description-tab"
+                                class="tab-pane fade show active"> {{product.more_description | safe}} </div>
+                            <div id="Additional-info" role="tabpanel" aria-labelledby="Additional-info-tab"
+                                class="tab-pane fade"> {{product.additional_infos | safe}} </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="small_divider"></div>
+                    <div class="divider"></div>
+                    <div class="medium_divider"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

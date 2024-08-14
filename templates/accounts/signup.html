@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include "partials/top_page.html" with name="Sign Up" %}
+
+<div class="main_content">
+    <div class="login_register_wrap section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-6 col-md-10">
+                    <div class="login_wrap">
+                        <div class="padding_eight_all bg-white">
+                            <div class="heading_s1">
+                                <h3>Créer un compte</h3>
+                            </div>
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="form-group mb-3">
+                                    {{ form.username }}
+
+                                    {% if form.username.errors %}
+                                    {% for error in form.username.errors %}
+                                    <div class="text-danger">
+                                        {{error}}
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group mb-3">
+                                    {{ form.email }}
+
+                                    {% if form.email.errors %}
+                                    {% for error in form.email.errors %}
+                                    <div class="text-danger">
+                                        {{error}}
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group mb-3">
+                                    {{ form.password1 }}
+
+                                    {% if form.password1.errors %}
+                                    {% for error in form.password1.errors %}
+                                    <div class="text-danger">
+                                        {{error}}
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group mb-3">
+                                    {{ form.password2 }}
+
+                                    {% if form.password2.errors %}
+                                    {% for error in form.password2.errors %}
+                                    <div class="text-danger">
+                                        {{error}}
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group mb-3 form-check form-switch">
+                                    {{ form.agree_terms }}
+                                    <span>J'accepte les conditions générales &amp; Politique.</span>
+
+                                    {% if form.agree_terms.errors %}
+                                    {% for error in form.agree_terms.errors %}
+                                    <div class="text-danger">
+                                        {{error}}
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+
+
+                                <div class="form-group mb-3"><button type="submit" name="register"
+                                        class="btn btn-fill-out btn-block">Inscription</button></div>
+                            </form>
+                         
+                            <div class="form-note text-center">
+                                Vous avez déjà un compte ?
+                                <a href="{% url 'accounts:signin' %}">Se connecter</a>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

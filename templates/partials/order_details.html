@@ -1,0 +1,60 @@
+{% load price_filter %}
+<a href="#" data-bs-toggle="modal" data-bs-target="#orderDetailModal{{order.id}}" class="btn btn-fill-out btn-sm">Voir</a>
+
+<!-- Modal -->
+<div class="modal fade" id="orderDetailModal{{order.id}}" tabindex="-1" aria-labelledby="orderDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="orderDetailModalLabel">Détails de la commande </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Quantité</th>
+                    <th scope="col">Prix HT</th>
+                    <th scope="col">Taxe</th>
+                    <th scope="col">Prix TTC</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.order_details.all %}
+                        <tr>
+                        <th scope="row"> {{ item.id }} </th>
+                        <td> {{ item.product_name }} </td>
+                        <td> {{ item.quantity }}</td>
+                        <td> {{ item.sub_total_ht|format_price }}</td>
+                        <td> {{ item.taxe|format_price }}</td>
+                        <td> {{ item.sub_total_ttc|format_price }}</td>
+                        </tr>
+                        
+                        {% endfor %}
+                        <tr>
+                        <th scope="row">  </th>
+                        <td>  </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> Frais de livraison </td>
+                        <td> {{ order.carrier_price|format_price }}</td>
+                        </tr>
+                        <tr>
+                        <th scope="row">  </th>
+                        <td>  </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> Sous-total TTC </td>
+                        <td> {{ order.order_cost_ttc|format_price }}</td>
+                        </tr>
+                </tbody>
+              </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>

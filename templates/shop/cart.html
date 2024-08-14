@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load price_filter %}
+{% block content %}
+
+{% include "partials/top_page.html" with name="Cart" %}
+
+<div class="main_content">
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive shop_cart_table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="product-thumbnail">&nbsp;</th>
+                                    <th class="product-name">Produit</th>
+                                    <th class="product-price">Prix</th>
+                                    <th class="product-quantity">Quantité</th>
+                                    <th class="product-subtotal">Total</th>
+                                    <th class="product-remove">Supprimer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for item in cart.items %}
+                                <tr>
+                                    <td class="product-thumbnail">
+                                        <a>
+                                            <img width="50" alt="product1" src="{{ item.product.image }}">
+                                        </a>
+                                    </td>  
+                                    <td data-title="Product" class="product-name">
+                                        <a>{{ item.product.name }}</a>
+                                    </td>
+                                    <td data-title="Price" class="product-price">
+                                        {{ item.product.solde_price|format_price }}
+                                    </td>
+                                    <td data-title="Quantity" class="product-quantity">
+                                        <div class="quantity">
+                                            <a href="{% url 'shop:remove_from_cart' item.product.id 1 %}"
+                                                class="minus">-</a>
+                                            <input type="text" name="quantity" title="Qty" value="{{ item.quantity }}"
+                                                size="4" class="qty">
+                                            <a href="{% url 'shop:add_to_cart' item.product.id %}" class="plus">+</a>
+                                        </div>
+                                    </td>
+                                    <td data-title="Total" class="product-subtotal">
+                                        {{ item.sub_total_ttc|format_price }}
+                                    </td>
+                                    <td data-title="Remove" class="product-remove">
+                                        <a href="{% url 'shop:remove_from_cart' item.product.id item.quantity %}">
+                                            <i class="ti-close"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="medium_divider"></div>
+                    <div class="divider center_icon"><i class="ti-shopping-cart-full"></i></div>
+                    <div class="medium_divider"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="border p-3 p-md-4">
+                        <div class="heading_s1 mb-3">
+                            <h6>Livraison</h6>
+                        </div>
+                        <select class="form-control" name="carrier_id" id="carrier_id">
+                            {% for carrier in carriers %}
+                            <option {% if cart.carrier_id == carrier.id %} selected {% endif %} value="{{ carrier.id }}">
+                                {{ carrier.name }} ({{ carrier.price|format_price }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="border p-3 p-md-4">
+                        <div class="heading_s1 mb-3">
+                            <h6>Total du panier</h6>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="cart_total_label">Sous-total du panier</td>
+                                        <td class="cart_total_amount">{{ cart.sub_total_ht|format_price }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cart_total_label">Taxe </td>
+                                        <td class="cart_total_amount">{{cart.taxe_amount|format_price}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cart_total_label">Expédition ({{cart.carrier_name}})</td>
+                                        <td class="cart_total_amount">{{cart.shipping_price|format_price}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cart_total_label">Total</td>
+                                        <td class="cart_total_amount"><strong>{{ cart.sub_total_with_shipping|format_price }}</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div><a routerlink="/checkout" class="btn btn-fill-out" ng-reflect-router-link="/checkout"
+                            href="/checkout">Passer à la caisse</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    carrierForm = document.querySelector('select#carrier_id')
+    const updateCarrier = (event) => {
+        const { name, value } = event.target
+       
+
+        if (!carrier_id) {
+            return
+        }
+
+        const queryParams = new URLSearchParams(window.location.search)
+
+        if (queryParams.has(name)) {
+            queryParams.set(name, value)
+        } else {
+            queryParams.append(name, value)
+        }
+
+        const newUrl = `${window.location.origin}${window.location.pathname}?${queryParams.toString()}`
+
+        console.log(newUrl)
+
+        // Actualisez le navigateur avec la nouvelle URL
+        window.location.href = newUrl;
+    }
+    carrierForm.addEventListener('change', updateCarrier)
+</script>
+{% endblock %}

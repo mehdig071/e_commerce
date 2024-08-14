@@ -1,0 +1,105 @@
+
+{% load static %}
+
+<footer class="footer_dark">
+    <div class="footer_top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="widget">
+                        <div class="footer_logo"><a href="#">
+                                <h2>{{ request.session.name }}</h2>
+                            </a></div>
+                        <p> {{ request.session.description }} </p>
+                    </div>
+                    <div class="widget">
+                        <ul class="social_icons social_white">
+                            {% for social in request.session.socials %}
+                            <li>
+                                <a target="_blank" href="{{social.link}}">
+                                    <i class="{{social.icon}}"></i></a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6">
+                    <div class="widget">
+                        <h6 class="widget_title">My Account</h6>
+                        <ul class="widget_links">
+                            <li>
+                                <a href="{% url 'accounts:signin' %}"><i class="ti-user"></i><span> Signin</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'accounts:signup' %}"><i class="ti-user"></i><span> SignUp</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="widget">
+                        <h6 class="widget_title">Liens utiles</h6>
+                        <ul class="widget_links">
+                            {% for page in request.session.foot_pages %}
+                            <li>
+                                <a  
+                                    href="{% url 'shop:page' page.slug %}">
+                                    {{ page.name }}
+                                </a>
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+                </div>   
+                
+                <div class="col-lg-4 col-md-10 col-sm-8">
+                    <div class="widget">
+                        <h6 class="widget_title">Contact Info</h6>
+                        <ul class="contact_info contact_info_light">
+                            <li><i class="ti-location-pin"></i>
+                                <p>
+                                    {{ request.session.street }}
+                                    {{ request.session.code_postal }}
+
+                                    {{ request.session.city }}
+                                </p>
+                            </li>
+                            <li><i class="ti-email"></i>
+                                <a href="mailto:{{ request.session.email }}">
+                                    {{ request.session.email }}
+                                </a>
+                            </li>
+                            <li><i class="ti-mobile"></i>
+                                <p>
+                                    {{ request.session.phone }}
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom_footer border-top-tran">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-md-0 text-center text-md-start">{{ request.session.copyright }} </p>
+                </div>
+                <div class="col-md-6">
+                    <ul class="footer_payment text-center text-lg-end d-flex gap-2 justify-content-end">
+                        <li><a href="#"><img src="{% static 'assets/images/visa.png' %}" alt="visa"></a></li>
+                        <li><a href="#"><img src="{% static 'assets/images/discover.png' %}" alt="discover"></a>
+                        </li>
+                        <li><a href="#"><img src="{% static 'assets/images/master_card.png' %}" alt="master_card"></a>
+                        </li>
+                        <li><a href="#"><img src="{% static 'assets/images/paypal.png' %}" alt="paypal"></a></li>
+                        <li><a href="#"><img src="{% static 'assets/images/amarican_express.png' %}"
+                                    alt="amarican_express"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

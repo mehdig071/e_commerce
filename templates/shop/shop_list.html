@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<style>
+ul.widget_categories li a.active  {
+color: red !important;
+}
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+{% include "partials/top_page.html" with name='Shop' %}
+
+<!-- START MAIN CONTENT -->
+<div class="main_content">
+
+    <!-- START SECTION SHOP -->
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="row align-items-center mb-4 pb-1">
+                        <div class="col-12">
+                            <div class="product_header">
+                                <div class="product_header_left">
+                                    <div class="custom_select">
+                                        <select id="sort" name="sort-price" class="form-control form-control-sm">
+                                            <option {% if sort_by_price == 'asc' %} selected {% endif %} value="asc">Trier
+                                                par prix : du moins cher au plus cher</option>
+                                            <option {% if sort_by_price == 'desc' %} selected {% endif %} value="desc">
+                                                Trier par prix : du plus cher au moins cher</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="product_header_right">
+                                    <div class="products_view">
+                                        <a href="?display=grid"
+                                            class="shorting_icon grid {% if display == 'grid' %}active{% endif %}">
+                                            <i class="ti-view-grid"></i>
+                                        </a>
+                                        <a href="?display=list"
+                                            class="shorting_icon list {% if display == 'list' %}active{% endif %}">
+                                            <i class="ti-layout-list-thumb"></i>
+                                        </a>
+                                    </div>
+                                    <div class="custom_select">
+                                        <select id="showing" name="showing" class="form-control form-control-sm">
+                                            <option value="">Showing</option>
+                                            <option value="6" {% if products.paginator.per_page == 6 %} selected {% endif %}>6</option>
+                                            <option value="9" {% if products.paginator.per_page == 9 %} selected {% endif %}>9</option>
+                                            <option value="12" {% if products.paginator.per_page == 12 %} selected {% endif %}>12</option>
+                                            <option value="18" {% if products.paginator.per_page == 18 %} selected {% endif %}>18</option>
+                                            <option value="36" {% if products.paginator.per_page == 36 %} selected {%  endif %}>36</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row shop_container {{display}}">
+
+                        {% for product in products %}
+                        <div class="col-md-4 col-6">
+                            {% include "partials/product.html" with product=product %}
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                    {% include "partials/pagination.html" with datas=products %}
+                </div>
+                <div class="col-lg-3 order-lg-first mt-4 pt-2 mt-lg-0 pt-lg-0">
+                    <div class="sidebar">
+                        <div class="widget">
+                            <h5 class="widget_title">Categories</h5>
+                            <ul class="widget_categories">
+                                {% for category in categories %}
+                                <li >
+                                    <a class="{% if default_category_id == category.id %}active{% endif %}"  href="?category_id={{category.id}}">
+                                        <span class="categories_name">{{ category.name }}</span>
+                                        <span class="categories_num">({{ category.product_set.all| length}})</span>
+                                    </a>
+                                </li>
+                                
+                                {% endfor %}
+                                <li>
+                                    <a class="{% if default_category_id == 'all' %}active{% endif %}" href="?category_id=all">
+                                        <span class="categories_name">Tout</span>
+                                        <span class="categories_num">({{ products.paginator.count }})</span>
+                                    </a>
+                                </li>
+                               
+                            </ul>
+                        </div>
+                     
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END SECTION SHOP -->
+
+    {% endblock %}
+
+    {% block scripts %}
+    <script>
+        const showing = document.querySelector('select#showing')
+        const sort = document.querySelector('select#sort')
+        const sendRequest = (event) => {
+            const { name, value } = event.target
+
+            if (!value) {
+                return
+            }
+
+            const queryParams = new URLSearchParams(window.location.search)
+
+            if (queryParams.has(name)) {
+                /*if(value == queryParams.get(name)){
+                    return;
+                }*/
+                queryParams.set(name, value)
+            } else {
+                queryParams.append(name, value)
+            }
+
+            const newUrl = `${window.location.origin}${window.location.pathname}?${queryParams.toString()}`
+
+            console.log(newUrl)
+
+            // Actualisez le navigateur avec la nouvelle URL
+            window.location.href = newUrl;
+
+
+        }
+        showing.addEventListener('change', sendRequest)
+        sort.addEventListener('change', sendRequest)
+    </script>
+    {% endblock %}
