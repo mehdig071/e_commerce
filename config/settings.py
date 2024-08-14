@@ -29,6 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'https://thebilcomputer-66798a5b9ecb.herokuapp.com','bilcomputer.com'
+    
 ]
 
 
